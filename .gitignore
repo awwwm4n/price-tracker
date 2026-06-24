@@ -2,6 +2,7 @@
 /bin/
 /bootstrap
 /test-bin/
+/build/
 
 # AWS SAM build directory
 /.aws-sam/
