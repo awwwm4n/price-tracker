@@ -1,0 +1,28 @@
+# Compiled binaries
+/bin/
+/bootstrap
+/test-bin/
+
+# AWS SAM build directory
+/.aws-sam/
+
+# IDE/Tooling configurations
+/.idea/
+/.vscode/
+/*.sublime-project
+/*.sublime-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Go dependencies
+/vendor/
+go.work
+
+# Local configurations / logs
+*.env
+local.json
+/logs/
+/tmp/
+/*.log

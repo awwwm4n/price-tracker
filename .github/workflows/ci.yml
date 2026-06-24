@@ -1,0 +1,36 @@
+name: CI (Go lint & test)
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint-and-test:
+    name: Lint & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+          cache: true
+
+      - name: Verify Dependencies
+        run: go mod verify
+
+      - name: Run Go Format Check
+        run: |
+          if [ -n "$(gofmt -l .)" ]; then
+            echo "Go code is not formatted. Run 'gofmt -w .' on your changes."
+            gofmt -d .
+            exit 1
+          fi
+
+      - name: Run Tests
+        run: go test -v ./...
