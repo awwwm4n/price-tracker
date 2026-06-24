@@ -59,7 +59,7 @@ Resources:
   BotLambdaFunction:
     Type: AWS::Serverless::Function
     Metadata:
-      BuildMethod: make
+      BuildMethod: makefile
     Properties:
       CodeUri: .
       Handler: bootstrap
@@ -79,7 +79,7 @@ Resources:
   CronLambdaFunction:
     Type: AWS::Serverless::Function
     Metadata:
-      BuildMethod: make
+      BuildMethod: makefile
     Properties:
       CodeUri: .
       Handler: bootstrap
