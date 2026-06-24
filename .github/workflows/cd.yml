@@ -3,6 +3,7 @@ name: CD (Deploy to AWS SAM)
 on:
   push:
     branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   deploy:
