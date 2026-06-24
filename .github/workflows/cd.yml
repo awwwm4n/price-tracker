@@ -46,5 +46,5 @@ jobs:
             --capabilities CAPABILITY_IAM \
             --no-confirm-changeset \
             --no-fail-on-empty-changeset \
-            --parameter-overrides "TelegramBotToken=${{ secrets.TELEGRAM_BOT_TOKEN }}" \
+            --parameter-overrides "TelegramBotToken=${{ secrets.TELEGRAM_BOT_TOKEN }} ScraperApiKey=${{ secrets.SCRAPER_API_KEY }}" \
             --resolve-s3

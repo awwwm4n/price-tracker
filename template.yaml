@@ -9,6 +9,11 @@ Parameters:
     Type: String
     NoEcho: true
     Description: "The Telegram Bot Token, injected from GitHub secrets during deployment."
+  ScraperApiKey:
+    Type: String
+    Default: ""
+    NoEcho: true
+    Description: "Optional ScraperAPI key to bypass Amazon CAPTCHAs, injected from GitHub secrets if provided."
 
 Globals:
   Function:
@@ -22,6 +27,7 @@ Globals:
         USERS_TABLE_NAME: !Ref UsersTable
         SUBS_TABLE_NAME: !Ref SubscriptionsTable
         TELEGRAM_BOT_TOKEN: !Ref TelegramBotToken
+        SCRAPER_API_KEY: !Ref ScraperApiKey
         APP_ENV: "production"
 
 Resources:
