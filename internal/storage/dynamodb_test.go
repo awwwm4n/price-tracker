@@ -3,6 +3,7 @@ package storage
 import (
 	"context"
 	"log"
+	"net/http"
 	"testing"
 	"time"
 
@@ -21,6 +22,13 @@ func TestDynamoDBIntegration(t *testing.T) {
 		SubsTable:        "TestPriceTrackerSubscriptions",
 		AwsRegion:        "us-east-1",
 		DynamoDBEndpoint: "http://127.0.0.1:8000",
+	}
+
+	// Verify if local DynamoDB is running, skip if not reachable (e.g. clean CI environments)
+	connCheck := &http.Client{Timeout: 500 * time.Millisecond}
+	_, err := connCheck.Get(cfg.DynamoDBEndpoint)
+	if err != nil {
+		t.Skip("Skipping integration test: local DynamoDB instance is not reachable")
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)

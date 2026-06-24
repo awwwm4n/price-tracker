@@ -33,5 +33,9 @@ jobs:
             exit 1
           fi
 
+      - name: Start DynamoDB Local
+        run: |
+          docker run -d -p 8000:8000 amazon/dynamodb-local -jar DynamoDBLocal.jar -sharedDb -inMemory
+
       - name: Run Tests
         run: go test -v ./...

@@ -1,7 +1,10 @@
 name: CD (Deploy to AWS SAM)
 
 on:
-  push:
+  workflow_run:
+    workflows: ["CI (Go lint & test)"]
+    types:
+      - completed
     branches: [ main ]
   workflow_dispatch:
 
@@ -9,6 +12,7 @@ jobs:
   deploy:
     name: Build & Deploy
     runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success') }}
 
     steps:
       - name: Checkout Code
