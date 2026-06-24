@@ -5,10 +5,12 @@ import (
 	"fmt"
 	"math/rand"
 	"net/http"
+	"net/url"
 	"strings"
 	"time"
 
 	"github.com/PuerkitoBio/goquery"
+	"github.com/awwwm4n/price-tracker/internal/config"
 )
 
 var userAgents = []string{
@@ -21,13 +23,15 @@ var userAgents = []string{
 
 type HTTPScraper struct {
 	client *http.Client
+	apiKey string
 }
 
-func NewHTTPScraper() *HTTPScraper {
+func NewHTTPScraper(cfg *config.Config) *HTTPScraper {
 	return &HTTPScraper{
 		client: &http.Client{
-			Timeout: 15 * time.Second,
+			Timeout: 20 * time.Second, // ScraperAPI can take a bit longer to rotate proxies
 		},
+		apiKey: cfg.ScraperApiKey,
 	}
 }
 
@@ -37,24 +41,32 @@ func (s *HTTPScraper) Scrape(ctx context.Context, rawURL string) (*Product, erro
 		return nil, fmt.Errorf("failed to parse Amazon URL: %w", err)
 	}
 
-	req, err := http.NewRequestWithContext(ctx, "GET", normalizedURL, nil)
+	targetURL := normalizedURL
+	if s.apiKey != "" {
+		// Route through ScraperAPI to bypass Amazon IP blocks
+		targetURL = fmt.Sprintf("http://api.scraperapi.com?api_key=%s&url=%s", s.apiKey, url.QueryEscape(normalizedURL))
+	}
+
+	req, err := http.NewRequestWithContext(ctx, "GET", targetURL, nil)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create request: %w", err)
 	}
 
-	// Set realistic headers
-	req.Header.Set("User-Agent", getRandomUserAgent())
-	req.Header.Set("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8")
-	req.Header.Set("Accept-Language", "en-US,en;q=0.9")
-	req.Header.Set("Connection", "keep-alive")
-	req.Header.Set("Upgrade-Insecure-Requests", "1")
-	req.Header.Set("Sec-Ch-Ua", `"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"`)
-	req.Header.Set("Sec-Ch-Ua-Mobile", "?0")
-	req.Header.Set("Sec-Ch-Ua-Platform", `"Windows"`)
-	req.Header.Set("Sec-Fetch-Dest", "document")
-	req.Header.Set("Sec-Fetch-Mode", "navigate")
-	req.Header.Set("Sec-Fetch-Site", "none")
-	req.Header.Set("Sec-Fetch-User", "?1")
+	if s.apiKey == "" {
+		// Set realistic headers only for direct requests
+		req.Header.Set("User-Agent", getRandomUserAgent())
+		req.Header.Set("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8")
+		req.Header.Set("Accept-Language", "en-US,en;q=0.9")
+		req.Header.Set("Connection", "keep-alive")
+		req.Header.Set("Upgrade-Insecure-Requests", "1")
+		req.Header.Set("Sec-Ch-Ua", `"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"`)
+		req.Header.Set("Sec-Ch-Ua-Mobile", "?0")
+		req.Header.Set("Sec-Ch-Ua-Platform", `"Windows"`)
+		req.Header.Set("Sec-Fetch-Dest", "document")
+		req.Header.Set("Sec-Fetch-Mode", "navigate")
+		req.Header.Set("Sec-Fetch-Site", "none")
+		req.Header.Set("Sec-Fetch-User", "?1")
+	}
 
 	resp, err := s.client.Do(req)
 	if err != nil {

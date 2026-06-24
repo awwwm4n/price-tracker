@@ -12,6 +12,7 @@ type Config struct {
 	AwsRegion        string
 	Env              string
 	DynamoDBEndpoint string // Used for local development/testing
+	ScraperApiKey    string // Optional API key for ScraperAPI to bypass CAPTCHA on AWS Lambda
 }
 
 // LoadConfig loads the configuration from environment variables.
@@ -23,6 +24,7 @@ func LoadConfig() *Config {
 		AwsRegion:        getEnv("AWS_REGION", "us-east-1"),
 		Env:              getEnv("APP_ENV", "production"),
 		DynamoDBEndpoint: getEnv("DYNAMODB_ENDPOINT", ""),
+		ScraperApiKey:    getEnv("SCRAPER_API_KEY", ""),
 	}
 }
 

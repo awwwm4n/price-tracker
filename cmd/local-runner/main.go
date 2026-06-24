@@ -73,7 +73,7 @@ func main() {
 	}
 
 	repo := storage.NewDynamoDBRepository(dbClient, cfg)
-	webScraper := scraper.NewHTTPScraper()
+	webScraper := scraper.NewHTTPScraper(cfg)
 
 	botApp, err := bot.NewBot(cfg.TelegramBotToken, repo, webScraper)
 	if err != nil {

@@ -44,7 +44,7 @@ func init() {
 		}
 	})
 	repo := storage.NewDynamoDBRepository(dbClient, cfg)
-	webScraper := scraper.NewHTTPScraper()
+	webScraper := scraper.NewHTTPScraper(cfg)
 
 	// Initialize bot (required for scheduler to send alerts)
 	botApp, err := bot.NewBot(cfg.TelegramBotToken, repo, webScraper)
