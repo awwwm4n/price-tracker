@@ -21,7 +21,7 @@ Globals:
       Variables:
         USERS_TABLE_NAME: !Ref UsersTable
         SUBS_TABLE_NAME: !Ref SubscriptionsTable
-        TELEGRAM_BOT_TOKEN: !Sub "{{resolve:ssm:${TelegramBotTokenSSMPath}}}"
+        TELEGRAM_BOT_TOKEN: !Sub "{{resolve:ssm-secure:${TelegramBotTokenSSMPath}}}"
         APP_ENV: "production"
 
 Resources:
