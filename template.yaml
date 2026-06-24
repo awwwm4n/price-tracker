@@ -58,8 +58,10 @@ Resources:
   # 3. API Gateway Webhook Lambda
   BotLambdaFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: make
     Properties:
-      CodeUri: build/bot-lambda/
+      CodeUri: .
       Handler: bootstrap
       Policies:
         - DynamoDBCrudPolicy:
@@ -76,8 +78,10 @@ Resources:
   # 4. Hourly Scraper Cron Lambda
   CronLambdaFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: make
     Properties:
-      CodeUri: build/cron-lambda/
+      CodeUri: .
       Handler: bootstrap
       Policies:
         - DynamoDBCrudPolicy:
