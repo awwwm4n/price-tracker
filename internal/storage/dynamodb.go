@@ -205,7 +205,6 @@ func (r *DynamoDBRepository) UpdateSubscriptionPrice(ctx context.Context, chatID
 		expression.Name("LastCheckedAt"), expression.Value(checkedAt.Format(time.RFC3339)),
 	)
 
-
 	// We verify that the item exists before updating. Optional, but prevents creating new items with incomplete info.
 	condition := expression.AttributeExists(expression.Name("ChatID")).And(expression.AttributeExists(expression.Name("ASIN")))
 	exprWithCond, err := expression.NewBuilder().WithUpdate(update).WithCondition(condition).Build()

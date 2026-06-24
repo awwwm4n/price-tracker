@@ -7,9 +7,9 @@ import (
 	"strings"
 	"time"
 
-	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"github.com/awwwm4n/price-tracker/internal/scraper"
 	"github.com/awwwm4n/price-tracker/internal/storage"
+	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
 
 const (

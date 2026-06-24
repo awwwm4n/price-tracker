@@ -12,11 +12,11 @@ import (
 	awsconfig "github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/credentials"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
-	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"github.com/awwwm4n/price-tracker/internal/bot"
 	"github.com/awwwm4n/price-tracker/internal/config"
 	"github.com/awwwm4n/price-tracker/internal/scraper"
 	"github.com/awwwm4n/price-tracker/internal/storage"
+	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
 
 var (
@@ -31,7 +31,7 @@ func init() {
 	var awsOpts []func(*awsconfig.LoadOptions) error
 	if cfg.DynamoDBEndpoint != "" {
 		// Allows using DynamoDB local in testing or local runners
-		awsOpts = append(awsOpts, 
+		awsOpts = append(awsOpts,
 			awsconfig.WithCredentialsProvider(
 				credentials.NewStaticCredentialsProvider("dummy", "dummy", "dummy"),
 			),

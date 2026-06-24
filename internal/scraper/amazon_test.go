@@ -6,11 +6,11 @@ import (
 
 func TestParseAmazonURL(t *testing.T) {
 	tests := []struct {
-		name          string
-		rawURL        string
-		expectedASIN  string
-		expectedURL   string
-		expectError   bool
+		name         string
+		rawURL       string
+		expectedASIN string
+		expectedURL  string
+		expectError  bool
 	}{
 		{
 			name:         "Standard Indian Product URL",

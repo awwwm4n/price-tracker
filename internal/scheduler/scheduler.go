@@ -83,7 +83,7 @@ func (s *PriceScheduler) RunChecks(ctx context.Context) error {
 				)
 
 				log.Printf("Price drop detected for Chat %d, ASIN %s: %.2f -> %.2f. Sending alert.", sub.ChatID, asin, oldPrice, newPrice)
-				
+
 				// Notify user
 				err := s.bot.SendMessage(sub.ChatID, alertText)
 				if err != nil {

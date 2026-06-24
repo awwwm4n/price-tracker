@@ -26,7 +26,7 @@ func init() {
 
 	var awsOpts []func(*awsconfig.LoadOptions) error
 	if cfg.DynamoDBEndpoint != "" {
-		awsOpts = append(awsOpts, 
+		awsOpts = append(awsOpts,
 			awsconfig.WithCredentialsProvider(
 				credentials.NewStaticCredentialsProvider("dummy", "dummy", "dummy"),
 			),
